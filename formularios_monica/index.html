@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Formulario de Producto</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 20px;
+			background-color: #f9f9f9;
+		}
+
+		h2 {
+			text-align: center;
+			color: #333;
+		}
+
+		form {
+			max-width: 600px;
+			margin: 20px auto;
+			padding: 20px;
+			background: #fff;
+			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		}
+
+		label {
+			font-weight: bold;
+			display: block;
+			margin-top: 15px;
+		}
+
+		input,
+		select,
+		textarea,
+		button {
+			width: 100%;
+			padding: 10px;
+			margin-top: 5px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		textarea {
+			resize: vertical;
+		}
+
+		button {
+			background-color: #007BFF;
+			color: #fff;
+			border: none;
+			cursor: pointer;
+			margin-top: 20px;
+		}
+
+		button:hover {
+			background-color: #0056b3;
+		}
+
+		.dynamic-input {
+			margin-top: 5px;
+			display: flex;
+			gap: 10px;
+		}
+
+		.dynamic-input > input {
+			width: 100%;
+			padding: 10px;
+			margin-top: 5px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+
+<body>
+	<h2>Formulario para Agregar un Producto</h2>
+	<form id="productForm" action="products.php" method="post">
+		<label for="name">Nombre del producto:</label>
+		<input type="text" id="name" name="name">
+		<label for="description">Descripción:</label>
+		<textarea id="description" name="description" rows="5"></textarea>
+
+		<!-- Precio -->
+		<label for="price">Precio:</label>
+		<input type="number" id="price" name="price" step="0.01">
+
+		<!-- Material -->
+		<label for="material">Material:</label>
+		<input type="text" id="material" name="material">
+
+		<!-- Ajuste -->
+		<label for="fit">Ajuste:</label>
+		<input type="text" id="fit" name="fit">
+
+		<!-- Género -->
+		<label for="gender">Género:</label>
+		<input type="text" id="gender" name="gender">
+
+		<!-- Marca -->
+		<label for="brand_id">Marca (Presiona Enter para agregar):</label>
+		<div class="dynamic-input">
+			<input type="text" id="brandInput" placeholder="Añadir nueva marca">
+			<select id="brand_id" name="brand_id">
+				<option value="0">--Seleccionar--</option>
+			</select>
+		</div>
+
+		<!-- Categoría -->
+		<label for="category_id">Categoría (Presiona Enter para agregar):</label>
+		<div class="dynamic-input">
+			<input type="text" id="categoryInput" placeholder="Añadir nueva categoría">
+			<select id="category_id" name="category_id">
+				<option value="0">--Seleccionar--</option>
+			</select>
+		</div>
+
+		<!-- Colección -->
+		<label for="collection_id">Colección:</label>
+		<select id="collection_id" name="collection_id">
+			<option value="1">Casual</option>
+			<option value="2">Formal</option>
+			<option value="3">Activo</option>
+		</select>
+
+		<!-- Características -->
+		<label for="characteristics">Características:</label>
+		<textarea id="characteristics" name="characteristics" rows="3"></textarea>
+
+		<!-- Colores -->
+		<label for="colours">Colores:</label>
+		<input type="text" id="colours" name="colours" placeholder="Ejemplo: #000000, #FFFFFF">
+
+		<!-- Imágenes -->
+		<label for="images">Imágenes:</label>
+		<input type="file" id="images" name="images" multiple accept="image/*">
+
+		<!-- Información de compra -->
+		<label for="shopping_information">Información de compra:</label>
+		<textarea id="shopping_information" name="shopping_information" rows="3"></textarea>
+
+		<!-- Tallas -->
+		<label for="sizes">Tallas:</label>
+		<select id="sizes" name="sizes">
+			<option value="s">S</option>
+			<option value="m">M</option>
+			<option value="l">L</option>
+			<option value="xl">XL</option>
+			<option value="xxl">XXL</option>
+		</select>
+
+		<button type="submit">Enviar</button>
+	</form>
+
+	<script>
+		// Función para agregar nuevas opciones dinámicas y seleccionarlas automáticamente
+		function addOptionOnEnter(inputId, selectId) {
+			const input = document.getElementById(inputId);
+			const select = document.getElementById(selectId);
+
+			input.addEventListener("keypress", function (event) {
+				if (event.key === "Enter") {
+					event.preventDefault(); // Evitar que se envíe el formulario
+					const newOptionValue = input.value.trim();
+					if (newOptionValue) {
+						// Crear una nueva opción y agregarla al select
+						const option = document.createElement("option");
+						option.textContent = newOptionValue;
+						option.value = newOptionValue;
+						select.appendChild(option);
+
+						// Seleccionar automáticamente la nueva opción
+						select.value = newOptionValue;
+
+						// Limpiar el campo de entrada
+						input.value = "";
+					}
+				}
+			});
+		}
+
+		addOptionOnEnter("brandInput", "brand_id");
+		addOptionOnEnter("categoryInput", "category_id");
+	</script>
+</body>
+
+</html>
